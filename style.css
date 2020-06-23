@@ -1,0 +1,105 @@
+body {
+  background: #daeeff;
+  text-align: center;
+  margin-top: 20px;
+}
+.answer {
+  font-family: monospace;
+  white-space: pre;
+}
+
+.tile {
+  width: 1.2em;
+  height: 1.2em;
+  font-weight: bold;
+  margin: 1px;
+  padding: 0;
+  color: white;
+  background-color: rgb(20, 22, 95);
+  text-align: center;
+  float: left;
+  line-height: 1.1em;
+  font-size: 30px;
+}
+
+.number.tile {
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  line-height: 36px;
+}
+
+@media only screen and (max-width: 400px) {
+  .tile {
+    font-size: 25px;
+  }
+}
+
+.tile-border {
+  border: 3px solid rgb(20, 22, 95);
+  padding: 1px;
+  display: inline-block;
+}
+
+#numbers-target {
+  padding: 1px 5px;
+  background-color: #333;
+  color: rgb(227, 248, 127);
+  font-size: 30px;
+  font-family: monospace;
+  text-align: center;
+  height: 1.2em;
+  line-height: 1.1em;
+  margin: 1px;
+}
+
+#number-target-box {
+  display: inline-block;
+  border: 3px solid rgb(20, 22, 95);
+  margin-bottom: 5px;
+}
+
+#switches,
+#clock {
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+
+.tiles {
+  padding-bottom: 3px;
+}
+
+button {
+  margin-bottom: 10px !important;
+}
+
+#flash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  display: none;
+  animation: pulse 0.2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  10% {
+    background-color: rgba(255, 255, 255, 1);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0);
+  }
+}
+
+.screen {
+  min-height: 450px;
+  border: 2px solid rgb(4, 45, 92);
+  margin: 10px 0;
+  background: radial-gradient(#fcffd1, #a3d5ff);
+}

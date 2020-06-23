@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <title>Countdown Game</title>
+<body>
+    <div id="flash"></div>
+
+    <div class="container">
+
+        <h1>Countdown</h1>
+
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="screen">
+                    <div id="clock">
+                        <canvas id="clock-canvas" width="250px" height="250px"></canvas>
+                    </div>
+
+                    <div id="letters-game">
+                        <div class="tiles">
+                            <div class="tile-border">
+                                <div class="letter tile" id="letter1"></div>
+                                <div class="letter tile" id="letter2"></div>
+                                <div class="letter tile" id="letter3"></div>
+                                <div class="letter tile" id="letter4"></div>
+                                <div class="letter tile" id="letter5"></div>
+                                <div class="letter tile" id="letter6"></div>
+                                <div class="letter tile" id="letter7"></div>
+                                <div class="letter tile" id="letter8"></div>
+                                <div class="letter tile" id="letter9"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="numbers-game" style="display: none;">
+                        <div id="number-target-box">
+                            <div id="numbers-target">000</div>
+                        </div>
+
+                        <div class="tiles">
+                            <div class="tile-border">
+                                <div class="number tile" id="number1"></div>
+                                <div class="number tile" id="number2"></div>
+                                <div class="number tile" id="number3"></div>
+                                <div class="number tile" id="number4"></div>
+                                <div class="number tile" id="number5"></div>
+                                <div class="number tile" id="number6"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <textarea id="working" style="width: 100%" rows="11" placeholder="Optional working space. Use paper if you prefer."></textarea>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="btn-group">
+                            <button class="btn btn-primary" id="letters-switch">Letters</button>
+                            <button class="btn btn-light" id="numbers-switch">Numbers</button>
+                        </div>
+                        <div style="float:left">
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- Practice large -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:728px;height:90px"
+                                 data-ad-client="ca-pub-6217806061795323"
+                                 data-ad-slot="9898130326"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div id="letter-buttons" class="col-sm">
+                        <div class="btn-group">
+                            <button class="btn btn-light" id="vowel-button">Vowel</button>
+                            <button class="btn btn-light" id="consonant-button">Consonant</button>
+                        </div>
+                        <button class="btn btn-info" id="auto-fill-button">Random fill</button>
+                        <button class="btn btn-info" id="conundrum-button">Conundrum</button>
+                        <button class="btn btn-success" id="letters-show-answers-button" disabled="">Show answers</button>
+                        <button class="btn btn-danger" id="letters-reset-button">Reset</button>
+                        <form id="check-word">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <input id="check-word-word" class="form-control" type="text" placeholder="Word" disabled="">
+                                </div>
+                                <div class="col-sm-4">
+                                    <button id="check-word-button" type="submit" class="btn btn-primary" disabled="">Check word</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="check-word-output"></div>
+                    </div>
+                    <div id="number-buttons" class="col-sm">
+                        <div class="btn-group">
+                            <button class="btn btn-light" id="0large">0 large</button>
+                            <button class="btn btn-light" id="1large">1 large</button>
+                            <button class="btn btn-light" id="2large">2 large</button>
+                            <button class="btn btn-light" id="3large">3 large</button>
+                            <button class="btn btn-light" id="4large">4 large</button>
+                        </div>
+
+                        <button class="btn btn-info" id="random-large">Random</button>
+                        <button class="btn btn-success" id="numbers-show-answer-button" disabled="">Show answers</button>
+                        <button class="btn btn-danger" id="numbers-reset-button">Reset</button>
+                    </div>
+                </div>
+                <div id="switches">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" id="enable-music" class="form-check-input" checked />
+                                    <label class="form-check-label" for="enable-music">Enable sound</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" id="automatic-timer" class="form-check-input" checked />
+                                    <label class="form-check-label" for="automatic-timer">Automatic timer</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div id="timer-controls" class="btn-group" style="display:none">
+                                <button class="btn btn-primary" id="clock-start">Start clock</button>
+                                <button class="btn btn-light" id="clock-pauseresume">Pause clock</button>
+                            </div>
+                            <button class="btn btn-danger" disabled="" id="halt-clock">End</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="answer" id="answer"></div><br><br>
+        <p class="text-center">Please report all bugs or general feedback to <a href="mailto:james@incoherency.co.uk">james@incoherency.co.uk</a>. Cheers!</p>
+        <p class="text-center">If you prefer <a href="/countdown/practice-old/">the old version</a>, you're welcome to use that one, but please tell me what you didn't like about the new version so I can improve it.</p>
+        <p class="text-center">You may also be interested in the <a href="/countdown/">Countdown Solver</a>.</p>
+        <p class="small text-center">Countdown game by <a href="https://incoherency.co.uk/">James Stanley</a>. Design by <a href="http://davemcdermid.co.uk/">Dave McDermid</a>.</p>
+
+
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- Practice vlarge -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:336px;height:280px"
+                         data-ad-client="ca-pub-6217806061795323"
+                         data-ad-slot="8421397129"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+
+            </div>
+        </div>
+
+    </div>
+
+    <audio src="music.mp3" id="music"></audio>
+
+    <script src="jquery.min.js"></script>
+    <script src="dictionary.js"></script>
+    <script src="cntdn.js"></script>
+    <script src="conundrum-data.js"></script>
+    <script src="conundrum.js"></script>
+    <script src="practice.js?v=7"></script>
+
+
+</html>
