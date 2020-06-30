@@ -32,7 +32,7 @@ var letteridx;
 var clockinterval;
 var clockrunning;
 var clockpaused;
-var clocksecs = 30;
+var clocksecs = clocktotal();
 var flashes;
 var buttonflashes;
 var nvowels;
@@ -109,11 +109,25 @@ if ($('#automatic-timer').prop("checked"))
 else
     $('#timer-controls').show();
 
+$('input[name="clocktime"]').change(retime);
+retime();
 
 if (window.location.hash == '#numbers')
     numbers_switch();
 else
     letters_switch();
+
+function clocktotal() {
+    return parseInt($('input[name="clocktime"]:checked').val());
+}
+
+function retime() {
+    clocksecs = clocktotal();
+    $('#music').attr('src', 'music' + clocksecs + '.mp3');
+    $('#music')[0].load();
+    $('#music')[0].pause();
+    renderclock();
+}
 
 function gennumbers(large) {
     if (needreset)
@@ -167,7 +181,7 @@ function letters_switch() {
     $('#numbers-game,#number-buttons').css('display', 'none');
     if (window.location.hash)
         window.location.hash = '';
-    clocksecs = 30;
+    clocksecs = clocktotal();
     stopclock();
     reset();
 }
@@ -178,7 +192,7 @@ function numbers_switch() {
     $('#numbers-game,#number-buttons').css('display', 'block');
     $('#letters-game,#letter-buttons').css('display', 'none');
     window.location.hash = 'numbers';
-    clocksecs = 30;
+    clocksecs = clocktotal();
     stopclock();
     reset();
 }
@@ -285,7 +299,7 @@ function startclock() {
     $('#check-word-word').prop('disabled', true);
     $('#check-word-button').prop('disabled', true);
     clockinterval = setInterval(tickclock, clockstep);
-    clocksecs = 30;
+    clocksecs = clocktotal();
     clockrunning = true;
     needreset = true;
     renderclock();
@@ -308,7 +322,7 @@ function stopclock() {
 
     $('#halt-clock').prop('disabled', true);
 
-    if (clocksecs != 30)
+    if (clocksecs != clocktotal())
         buttonflash();
 
     clockrunning = false;
@@ -357,6 +371,13 @@ function renderclock() {
     var c = canvas.get()[0];
     var ctx = c.getContext("2d");
 
+    // only count down the analogue clock when < 30 secs remain
+    let secs = clocksecs;
+    if (secs > 30)
+        secs = 30;
+
+    $('#digitalclock').text(Math.round(clocksecs));
+
     /* parameters */
     var dim = canvas.width();
     var mid = dim/2;
@@ -383,7 +404,7 @@ function renderclock() {
 
     ctx.strokeStyle = 'rgb(251, 245, 88)'; // bright yellow
     ctx.lineWidth = 7;
-    for (var a = 0; a <= (30 - clocksecs); a++) {
+    for (var a = 0; a <= (30 - secs); a++) {
         if (a % 15 == 0)
             continue;
         ctx.beginPath();
@@ -440,13 +461,13 @@ function renderclock() {
       mid,
       mid,
       8,
-      Math.PI * 2 * (-clocksecs + 10) / 60,
-        Math.PI * 2 * (-clocksecs + 20) / 60,
+      Math.PI * 2 * (-secs + 10) / 60,
+        Math.PI * 2 * (-secs + 20) / 60,
       true
     );
     ctx.lineTo(
-        mid + (mid - insideClock - 5) * Math.sin((Math.PI * 2 * clocksecs) / 60),
-        mid + (mid - insideClock - 5) * Math.cos((Math.PI * 2 * clocksecs) / 60)
+        mid + (mid - insideClock - 5) * Math.sin((Math.PI * 2 * secs) / 60),
+        mid + (mid - insideClock - 5) * Math.cos((Math.PI * 2 * secs) / 60)
     );
     ctx.fill();
     ctx.stroke();
@@ -460,7 +481,7 @@ function reset() {
 
     stopclock();
     clearInterval(clockinterval);
-    clocksecs = 30;
+    clocksecs = clocktotal();
     renderclock();
 
     letters = '';

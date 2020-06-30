@@ -103,3 +103,13 @@ button {
   margin: 10px 0;
   background: radial-gradient(#fcffd1, #a3d5ff);
 }
+
+#digitalclock {
+    border: solid 2px black;
+    font-family: monospace;
+    color: black;
+    background: #ccc;
+    width: 3em;
+    margin: auto;
+    margin-bottom: 10px;
+}
