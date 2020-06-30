@@ -373,8 +373,8 @@ function renderclock() {
 
     // only count down the analogue clock when < 30 secs remain
     let secs = clocksecs;
-    if (secs > 30)
-        secs = 30;
+    //if (secs > 30)
+    //    secs = 30;
 
     $('#digitalclock').text(Math.round(clocksecs));
 
