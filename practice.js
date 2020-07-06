@@ -28,6 +28,8 @@ var numbersteps;
 var numbertimeout;
 
 var is_conundrum;
+var conundrum_result;
+var conundrum_clue;
 var letteridx;
 var clockinterval;
 var clockrunning;
@@ -63,6 +65,8 @@ $('#random-large').click(function() {
     gennumbers(Math.floor(Math.random() * 5));
 });
 $('#numbers-reset-button').click(reset);
+
+$('#conundrum-clue').click(show_conundrum_clue);
 
 $('#enable-music').change(function() {
     if (!$('#enable-music').prop('checked')) {
@@ -262,6 +266,8 @@ function conundrum() {
     result = [];
     solve_letters(data.toLowerCase(), function(word) { if (word.length == 9) result.push(word); });
     if (result.length == 1) {
+        conundrum_result = result[0];
+        conundrum_clue = [".", ".", ".", ".", ".", ".", ".", ".", "."];
         a = data.toUpperCase().split("");
         letters = '';
         for (var i = 0; i < 9; i++) {
@@ -270,11 +276,25 @@ function conundrum() {
         }
         letteridx = 9;
         is_conundrum = true;
+        $('#conundrum-clue').show();
         if ($('#automatic-timer').prop("checked"))
             startclock();
     } else {
         conundrum();
     }
+}
+
+function show_conundrum_clue() {
+    let stillneed = [];
+    for (let i = 0; i < 9; i++) {
+        if (conundrum_clue[i] == '.')
+            stillneed.push(i);
+    }
+    if (stillneed.length > 0) {
+        let reveal_idx = stillneed[Math.floor(Math.random() * stillneed.length)];
+        conundrum_clue[reveal_idx] = conundrum_result.charAt(reveal_idx);
+    }
+    $('#answer').text(conundrum_clue.join(''));
 }
 
 function startclock() {
@@ -496,6 +516,7 @@ function reset() {
     $('#conundrum-button').prop('disabled', false);
     $('#letters-show-answers-button').prop('disabled', true);
     $('#numbers-show-answer-button').prop('disabled', true);
+    $('#conundrum-clue').hide();
 
     for (var i = 1; i <= 9; i++)
         $('#letter' + i).html('');
