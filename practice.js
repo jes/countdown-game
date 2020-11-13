@@ -78,7 +78,7 @@ $('#enable-music').change(function() {
 
 $('#clock-start').click(function() {
     clearInterval(clockinterval);
-    $('#music')[0].load();
+    $('#music')[0].currentTime = 0;
     startclock();
 });
 $('#clock-pauseresume').click(function() {
@@ -128,6 +128,7 @@ function clocktotal() {
 function retime() {
     clocksecs = clocktotal();
     $('#music').attr('src', 'music' + clocksecs + '.mp3');
+    $('#music')[0].pause();
     $('#music')[0].load();
     $('#music')[0].pause();
     renderclock();
@@ -337,7 +338,7 @@ function stopclock() {
     $('#check-word-button').prop('disabled', false);
     clearInterval(clockinterval);
 
-    $('#music')[0].load();
+    $('#music')[0].currentTime = 0;
     $('#music')[0].pause();
 
     $('#halt-clock').prop('disabled', true);
@@ -499,9 +500,9 @@ function reset() {
     needreset = false;
     is_conundrum = false;
 
+    clocksecs = clocktotal();
     stopclock();
     clearInterval(clockinterval);
-    clocksecs = clocktotal();
     renderclock();
 
     letters = '';
