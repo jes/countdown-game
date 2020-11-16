@@ -81,6 +81,16 @@ $('#clock-start').click(function() {
     $('#music')[0].currentTime = 0;
     startclock();
 });
+$('#clock-reset').click(function() {
+    clearInterval(clockinterval);
+    $('#music')[0].pause();
+    $('#music')[0].currentTime = 0;
+    clockpaused = true;
+    $('#check-word-word').prop('disabled', false);
+    $('#check-word-button').prop('disabled', false);
+    clocksecs = clocktotal();
+    renderclock();
+});
 $('#clock-pauseresume').click(function() {
     if (clockpaused) {
         $('#clock-pauseresume').text('Pause clock');
