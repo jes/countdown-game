@@ -35,6 +35,7 @@ var clockinterval;
 var clockrunning;
 var clockpaused;
 var clocksecs = clocktotal();
+var clockstarted;
 var flashes;
 var buttonflashes;
 var nvowels;
@@ -329,6 +330,7 @@ function startclock() {
     $('#check-word-word').prop('disabled', true);
     $('#check-word-button').prop('disabled', true);
     clockinterval = setInterval(tickclock, clockstep);
+    clockstarted = Date.now();
     clocksecs = clocktotal();
     clockrunning = true;
     needreset = true;
@@ -387,10 +389,11 @@ function togglebuttonflash() {
 }
 
 function tickclock() {
-    clocksecs -= clockstep / 1000;
+    clocksecs = clocktotal() - (Date.now() - clockstarted) / 1000;
     renderclock();
 
     if (clocksecs <= 0) {
+        clocksecs = 0;
         stopclock();
         screenflash();
     }
