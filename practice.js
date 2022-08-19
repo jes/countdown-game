@@ -334,7 +334,7 @@ function show_numbers_hint() {
     var solution = solve_numbers(numbers, target, false);
 
     var offby = solution.match(/off by \d+/);
-    if (n) {
+    if (offby) {
         $('#answer').text("best answer is " + offby);
     } else {
         $('#answer').text("exact solution possible");
