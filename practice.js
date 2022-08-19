@@ -69,6 +69,7 @@ $('#numbers-reset-button').click(reset);
 
 $('#conundrum-clue').click(show_conundrum_clue);
 $('#word-lengths-clue').click(show_word_lengths_clue);
+$('#numbers-hint').click(show_numbers_hint);
 
 $('#enable-music').change(function() {
     if (!$('#enable-music').prop('checked')) {
@@ -200,6 +201,8 @@ function letters_switch() {
     clocksecs = clocktotal();
     stopclock();
     reset();
+    is_letters = true;
+    is_numbers = false;
 }
 
 function numbers_switch() {
@@ -211,6 +214,8 @@ function numbers_switch() {
     clocksecs = clocktotal();
     stopclock();
     reset();
+    is_numbers = true;
+    is_letters = false;
 }
 
 function addletter(vowel) {
@@ -319,6 +324,23 @@ function show_word_lengths_clue() {
     $('#answer').text(hints.join("\n"));
 }
 
+function show_numbers_hint() {
+    var numbers = [];
+    var target = $('#numbers-target').html();
+
+    for (var i = 1; i <= 6; i++)
+        numbers.push(parseInt($('#number' + i).html()));
+
+    var solution = solve_numbers(numbers, target, false);
+
+    var offby = solution.match(/off by \d+/);
+    if (n) {
+        $('#answer').text("best answer is " + offby);
+    } else {
+        $('#answer').text("exact solution possible");
+    }
+}
+
 function startclock() {
     $('#vowel-button').prop('disabled', true);
     $('#consonant-button').prop('disabled', true);
@@ -331,8 +353,10 @@ function startclock() {
     $('#letters-show-answers-button').prop('disabled', false);
     $('#numbers-show-answer-button').prop('disabled', false);
 
-    if (!is_conundrum)
+    if (is_letters && !is_conundrum)
         $('#word-lengths-clue').show();
+    if (is_numbers)
+        $('#numbers-hint').show();
 
     if ($('#enable-music').prop('checked'))
         $('#music')[0].play();
@@ -545,6 +569,7 @@ function reset() {
     $('#numbers-show-answer-button').prop('disabled', true);
     $('#conundrum-clue').hide();
     $('#word-lengths-clue').hide();
+    $('#numbers-hint').hide();
 
     for (var i = 1; i <= 9; i++)
         $('#letter' + i).html('');
