@@ -68,6 +68,7 @@ $('#random-large').click(function() {
 $('#numbers-reset-button').click(reset);
 
 $('#conundrum-clue').click(show_conundrum_clue);
+$('#word-lengths-clue').click(show_word_lengths_clue);
 
 $('#enable-music').change(function() {
     if (!$('#enable-music').prop('checked')) {
@@ -308,6 +309,16 @@ function show_conundrum_clue() {
     $('#answer').text(conundrum_clue.join(''));
 }
 
+function show_word_lengths_clue() {
+    var count = {};
+    solve_letters(letters.toLowerCase(), function(word, c) { count[word.length] ||= 0; count[word.length]++; })
+    var hints = [];
+    for (var i = 9; i > 0; i--) {
+        if (count[i] && count[i] > 0) hints.push(i + " letters: " + count[i] + " word" + (count[i] > 1 ? "s" : ""));
+    }
+    $('#answer').text(hints.join("\n"));
+}
+
 function startclock() {
     $('#vowel-button').prop('disabled', true);
     $('#consonant-button').prop('disabled', true);
@@ -319,6 +330,9 @@ function startclock() {
     $('#halt-clock').prop('disabled', false);
     $('#letters-show-answers-button').prop('disabled', false);
     $('#numbers-show-answer-button').prop('disabled', false);
+
+    if (!is_conundrum)
+        $('#word-lengths-clue').show();
 
     if ($('#enable-music').prop('checked'))
         $('#music')[0].play();
@@ -530,6 +544,7 @@ function reset() {
     $('#letters-show-answers-button').prop('disabled', true);
     $('#numbers-show-answer-button').prop('disabled', true);
     $('#conundrum-clue').hide();
+    $('#word-lengths-clue').hide();
 
     for (var i = 1; i <= 9; i++)
         $('#letter' + i).html('');
