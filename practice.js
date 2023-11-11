@@ -322,6 +322,9 @@ function show_word_lengths_clue() {
         if (count[i] && count[i] > 0) hints.push(i + " letters: " + count[i] + " word" + (count[i] > 1 ? "s" : ""));
     }
     $('#answer').text(hints.join("\n"));
+
+    $('#letters-show-answers-button').prop('disabled', false);
+    $('#numbers-show-answer-button').prop('disabled', false);
 }
 
 function show_numbers_hint() {
@@ -335,10 +338,13 @@ function show_numbers_hint() {
 
     var offby = solution.match(/off by \d+/);
     if (offby) {
-        $('#answer').text("best answer is " + offby);
+        $('#answer').text("best answer is " + offby[0]);
     } else {
         $('#answer').text("exact solution possible");
     }
+
+    $('#letters-show-answers-button').prop('disabled', false);
+    $('#numbers-show-answer-button').prop('disabled', false);
 }
 
 function startclock() {
