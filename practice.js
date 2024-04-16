@@ -77,6 +77,7 @@ $('#enable-music').change(function() {
         if (clockrunning)
             $('#enable-music').prop('disabled', true);
     }
+    saveconfig();
 });
 
 $('#clock-start').click(function() {
@@ -120,19 +121,42 @@ $('#automatic-timer').change(function() {
         $('#timer-controls').hide();
     else
         $('#timer-controls').show();
+    saveconfig();
 });
 if ($('#automatic-timer').prop("checked"))
     $('#timer-controls').hide();
 else
     $('#timer-controls').show();
 
-$('input[name="clocktime"]').change(retime);
+$('input[name="clocktime"]').change(function() {
+    retime();
+    saveconfig();
+});
+loadconfig();
 retime();
 
 if (window.location.hash == '#numbers')
     numbers_switch();
 else
     letters_switch();
+
+function loadconfig() {
+    let cfg = JSON.parse(localStorage.getItem('countdown-game-config'));
+    if (cfg != null) {
+        $('#enable-music').prop('checked', cfg.enable_sound);
+        $('#automatic-timer').prop('checked', cfg.automatic_timer);
+        $('#' + cfg.clock_time + 'clock').prop('checked', true);
+    }
+}
+
+function saveconfig() {
+    let cfg = {
+        enable_sound: $('#enable-music').prop('checked'),
+        automatic_timer: $('#automatic-timer').prop('checked'),
+        clock_time: clocktotal(),
+    };
+    localStorage.setItem('countdown-game-config', JSON.stringify(cfg));
+}
 
 function clocktotal() {
     return parseInt($('input[name="clocktime"]:checked').val());
