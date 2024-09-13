@@ -1,5 +1,5 @@
-$('#letters-switch').click(letters_switch);
-$('#numbers-switch').click(numbers_switch);
+$('#letters-switch').click(function() { window.location = "letters.html" });
+$('#numbers-switch').click(function() { window.location = "numbers.html" });
 
 function shuffle(a) {
     var n = a.length;
@@ -135,7 +135,7 @@ $('input[name="clocktime"]').change(function() {
 loadconfig();
 retime();
 
-if (window.location.hash == '#numbers')
+if (window.location.href.includes('numbers'))
     numbers_switch();
 else
     letters_switch();
