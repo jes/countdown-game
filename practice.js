@@ -99,6 +99,7 @@ $('#clock-pauseresume').click(function() {
     if (clockpaused) {
         $('#clock-pauseresume').text('Pause clock');
         clearInterval(clockinterval);
+        clockstarted = Date.now() - ((clocktotal() - clocksecs) * 1000);
         clockinterval = setInterval(tickclock, clockstep);
         $('#music')[0].play();
         clockpaused = false;
@@ -123,16 +124,16 @@ $('#automatic-timer').change(function() {
         $('#timer-controls').show();
     saveconfig();
 });
-if ($('#automatic-timer').prop("checked"))
-    $('#timer-controls').hide();
-else
-    $('#timer-controls').show();
 
 $('input[name="clocktime"]').change(function() {
     retime();
     saveconfig();
 });
 loadconfig();
+if ($('#automatic-timer').prop("checked"))
+    $('#timer-controls').hide();
+else
+    $('#timer-controls').show();
 retime();
 
 if (window.location.href.includes('numbers'))
